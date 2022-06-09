@@ -21,18 +21,17 @@ export default function Home({ posts, response }) {
         // const client = await clientPromise;
         // const db = client.db("sample_posts");
         // db.collection('posts').insert_one(obj)
-        let res = await fetch("https://mongo-next-umber.vercel.app/api/posts", {
+        let dev = process.env.NODE_ENV !== 'production';
+        let dev_url = 'http://localhost:3000'
+        let prod_url = 'https://mongo-next-umber.vercel.app'
+
+        let res = await fetch(`${dev ? dev_url:prod_url}/api/posts`, {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-              },
             body: JSON.stringify({
                 title: title,
                 content: content,
             }),
         });
-        
-  
         res = await res.json();
         setPostsState([...postsState, res]);
         setTitle("");
