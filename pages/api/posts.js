@@ -6,10 +6,31 @@ export default async function handler(req, res) {
 
   switch (req.method) {
     case "POST":
-      let bodyObject = JSON.parse(req.body);
-      let newPost = await db.collection("posts").insertOne(bodyObject);
-      res.json(newPost.ops[0]);
-      break;
+      try {
+        // connect to the database
+        //let { db } = await connectToDatabase();
+        // add the post
+        await db.collection('posts').insertOne(JSON.parse(req.body));
+        // return a message
+        res.json({
+            message: 'Post added successfully',
+            success: true,
+        });
+        break
+    } catch (error) {
+        // return an error
+        res.json({
+            message: new Error(error).message,
+            success: false,
+        });
+        break
+    }
+
+    // let bodyObject = JSON.parse(req.body);
+    // let newPost = await db.collection("posts").insertOne(bodyObject);
+    // res.json(newPost.ops[0]);
+    // break;
+
     case "GET":
       const posts = await db.collection("posts").find({}).toArray();
       res.json({ status: 200, data: posts });

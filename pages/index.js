@@ -27,17 +27,28 @@ export default function Home({ posts, response }) {
 
         let res = await fetch(`${dev ? dev_url:prod_url}/api/posts`, {
             method: "POST",
+            // headers:{
+            //     "Access-Control-Allow-Origin" : "*", 
+            //     "Access-Control-Allow-Credentials" : true ,
+            //     "Content-Type": "application/json",
+
+            // },
             body: JSON.stringify({
                 title: title,
                 content: content,
             }),
         });
+        console.log('good')
         res = await res.json();
+        console.log('good')
         setPostsState([...postsState, res]);
         setTitle("");
         setContent("");
         setLoading(false);
+        console.log("posts", postsState)
     }
+
+    
     return (
         <div>
             <Head>
