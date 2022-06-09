@@ -21,7 +21,7 @@ export default function Home({ posts, response }) {
         // const client = await clientPromise;
         // const db = client.db("sample_posts");
         // db.collection('posts').insert_one(obj)
-        let res = await fetch("http://localhost:3000/api/posts", {
+        let res = await fetch("https://mongo-next-umber.vercel.app/api/posts", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
