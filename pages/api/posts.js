@@ -10,12 +10,13 @@ export default async function handler(req, res) {
         // connect to the database
         //let { db } = await connectToDatabase();
         // add the post
-        await db.collection('posts').insertOne(JSON.parse(req.body));
+        let newPost = await db.collection('posts').insertOne(JSON.parse(req.body));
         // return a message
-        res.json({
-            message: 'Post added successfully',
-            success: true,
-        });
+        res.json(newPost.ops[0]);
+        // res.json({
+        //     message: 'Post added successfully',
+        //     success: true,
+        // });
         break
     } catch (error) {
         // return an error

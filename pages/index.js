@@ -4,19 +4,24 @@ import Nav from '../components/Nav';
 import PostCard from '../components/PostCard';
 import styles from '../styles/Home.module.css';
 import clientPromise from "../lib/mongodb";
-import { useState, useEffect } from 'react';
-
-export default function Home({ posts, response }) {
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/router';
+export default function Home({ posts}) {
     const [postsState, setPostsState] = useState([]);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
+    const router = useRouter()
     useEffect(() => {
         setPostsState(posts);
     }, [posts]);
 
+    // useEffect(()=>{
+    //     setPostsState([...postsState, posts]);
+    // },[posts,postsState])
     const submit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         // const obj = { title: label, text: msg }
         // const client = await clientPromise;
         // const db = client.db("sample_posts");
@@ -38,14 +43,16 @@ export default function Home({ posts, response }) {
                 content: content,
             }),
         });
+
         console.log('good')
         res = await res.json();
+        console.log(res)
         console.log('good')
-        setPostsState([...postsState, res]);
         setTitle("");
         setContent("");
+        await setPostsState(postsState=>[...postsState, res]);
         setLoading(false);
-        console.log("posts", postsState)
+        //router.push('/')
     }
 
     
@@ -91,7 +98,6 @@ export default function Home({ posts, response }) {
                             </button>
                         </form>
                     </div>
-                    {response}
                 </div>
             </main>
         </div>
