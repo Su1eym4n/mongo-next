@@ -52,7 +52,8 @@ export default function Home({ posts}) {
         setContent("");
         await setPostsState(postsState=>[...postsState, res]);
         setLoading(false);
-        //router.push('/')
+        router.replace(router.asPath);
+       
     }
 
     
